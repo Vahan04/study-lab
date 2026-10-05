@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="StudyLab is an AI-style physics and mathematics study assistant." />
+    <title>StudyLab | Physics & Mathematics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="background-glow"></div>
+    <header class="topbar">
+      <a class="brand" href="#">
+        <span class="brand-mark">∑</span>
+        <span>Study<span class="brand-accent">Lab</span></span>
+      </a>
+      <nav>
+        <a class="active" href="#tutor">Tutor</a>
+        <a href="#formulas">Formula desk</a>
+        <a href="#quiz">Quiz</a>
+      </nav>
+      <button class="icon-button" id="theme-toggle" aria-label="Toggle color theme">◐</button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow"><span class="status-dot"></span> Your personal STEM workspace</div>
+        <h1>Think clearly.<br /><span>Learn deeply.</span></h1>
+        <p class="hero-copy">An AI-style study companion for physics and mathematics. Ask better questions, connect ideas, and build real intuition.</p>
+        <div class="quick-topics" aria-label="Popular topics">
+          <button class="topic-chip" data-topic="quantum">Quantum mechanics</button>
+          <button class="topic-chip" data-topic="calculus">Calculus</button>
+          <button class="topic-chip" data-topic="circuits">Circuit analysis</button>
+          <button class="topic-chip" data-topic="probability">Probability</button>
+        </div>
+      </section>
+
+      <section class="workspace" id="tutor">
+        <div class="panel tutor-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="section-label">01 / ASK THE TUTOR</span>
+              <h2>What are you working on?</h2>
+            </div>
+            <span class="live-pill">● DEMO MODE</span>
+          </div>
+          <div class="conversation" id="conversation">
+            <div class="message assistant">
+              <div class="avatar">∑</div>
+              <div>
+                <p class="message-name">StudyLab</p>
+                <p>Hi Vahan. Give me a concept, equation, or problem. I’ll explain it step by step and keep the math honest.</p>
+              </div>
+            </div>
+          </div>
+          <form class="question-form" id="question-form">
+            <label for="question" class="sr-only">Ask a question</label>
+            <textarea id="question" rows="2" placeholder="e.g. Explain why the Bloch sphere represents a qubit..." required></textarea>
+            <div class="input-footer">
+              <span class="hint">Try “derive”, “intuition”, or “example”</span>
+              <button class="send-button" type="submit">Ask tutor <span>↗</span></button>
+            </div>
+          </form>
+        </div>
+
+        <aside class="panel progress-panel">
+          <div class="panel-heading compact">
+            <span class="section-label">YOUR PROGRESS</span>
+            <span class="streak">🔥 4 day streak</span>
+          </div>
+          <div class="progress-ring"><div><strong>68%</strong><span>weekly goal</span></div></div>
+          <div class="progress-stats">
+            <div><strong>12</strong><span>concepts learned</span></div>
+            <div><strong>84%</strong><span>quiz accuracy</span></div>
+          </div>
+          <div class="focus-card">
+            <span class="section-label">CURRENT FOCUS</span>
+            <h3>Quantum foundations</h3>
+            <div class="meter"><span style="width: 72%"></span></div>
+            <small>6 of 8 lessons complete</small>
+          </div>
+        </aside>
+      </section>
+
+      <section class="content-grid" id="formulas">
+        <div class="panel formula-panel">
+          <div class="panel-heading">
+            <div><span class="section-label">02 / FORMULA DESK</span><h2>Small library, big ideas</h2></div>
+            <button class="text-button" id="shuffle-formula">New formula ↗</button>
+          </div>
+          <article class="formula-card">
+            <div class="formula-meta"><span id="formula-domain">QUANTUM MECHANICS</span><span id="formula-number">01 / 04</span></div>
+            <h3 id="formula-name">Time-dependent Schrödinger equation</h3>
+            <div class="equation" id="formula-equation">iℏ ∂ψ/∂t = Ĥψ</div>
+            <p id="formula-description">The state of a quantum system changes in time according to its Hamiltonian — the operator for total energy.</p>
+          </article>
+        </div>
+        <div class="panel concept-panel">
+          <span class="section-label">CONCEPT MAP</span>
+          <h2>Connect the dots</h2>
+          <p>Learning is stronger when ideas are connected. Explore a path through your current focus.</p>
+          <div class="concept-map">
+            <span class="node done">Wavefunction</span><i></i><span class="node active-node">Operators</span><i></i><span class="node">Measurement</span>
+          </div>
+          <button class="outline-button" id="map-button">Explore concept path <span>→</span></button>
+        </div>
+      </section>
+
+      <section class="panel quiz-panel" id="quiz">
+        <div class="quiz-intro">
+          <span class="section-label">03 / DAILY CHECK-IN</span>
+          <h2>One question.<br /><span>Make it count.</span></h2>
+          <p>Test your understanding in under two minutes. No pressure — mistakes are data.</p>
+          <button class="send-button" id="start-quiz">Start today's quiz <span>↗</span></button>
+        </div>
+        <div class="quiz-preview">
+          <div class="quiz-topline"><span>PHYSICS · QUANTUM</span><span>02:00</span></div>
+          <h3>What does the magnitude squared of a wavefunction represent?</h3>
+          <div class="answer-preview"><span>A</span> The energy of the particle</div>
+          <div class="answer-preview"><span>B</span> The probability density <b>✓</b></div>
+          <div class="answer-preview"><span>C</span> The particle's momentum</div>
+        </div>
+      </section>
+    </main>
+    <footer><span>StudyLab / Built for curious minds</span><span>Physics · Mathematics · Intuition</span></footer>
+    <script src="app.js"></script>
+  </body>
+</html>
