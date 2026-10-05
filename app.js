@@ -81,3 +81,99 @@ document.querySelector("#start-quiz").addEventListener("click", () => {
   document.querySelector("#quiz").scrollIntoView({ behavior: "smooth" });
   document.querySelector("#start-quiz").textContent = "Quiz ready ✓";
 });
+
+const canvas = document.querySelector("#bloch-canvas");
+const ctx = canvas.getContext("2d");
+const driveControl = document.querySelector("#drive-control");
+const detuningControl = document.querySelector("#detuning-control");
+const timeControl = document.querySelector("#time-control");
+const driveOutput = document.querySelector("#drive-output");
+const detuningOutput = document.querySelector("#detuning-output");
+const timeOutput = document.querySelector("#time-output");
+let animationFrame;
+
+function stateAt(omega, delta, time) {
+  const frequency = Math.hypot(omega, delta);
+  if (frequency === 0) return [0, 0, 1];
+  const nx = omega / frequency;
+  const nz = delta / frequency;
+  const angle = frequency * time;
+  return [
+    nx * nz * (1 - Math.cos(angle)),
+    -nx * Math.sin(angle),
+    Math.cos(angle) + nz * nz * (1 - Math.cos(angle))
+  ];
+}
+
+function drawBloch() {
+  const omega = Number(driveControl.value);
+  const delta = Number(detuningControl.value);
+  const time = Number(timeControl.value);
+  const [x, y, z] = stateAt(omega, delta, time);
+  const w = canvas.width;
+  const h = canvas.height;
+  const cx = w / 2;
+  const cy = h / 2 + 12;
+  const radius = Math.min(w, h) * .34;
+  ctx.clearRect(0, 0, w, h);
+  ctx.strokeStyle = "rgba(215, 239, 211, .28)";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.ellipse(cx, cy, radius, radius * .34, 0, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(cx - radius, cy);
+  ctx.lineTo(cx + radius, cy);
+  ctx.moveTo(cx, cy - radius);
+  ctx.lineTo(cx, cy + radius);
+  ctx.stroke();
+  const px = cx + radius * (x - y * .32);
+  const py = cy - radius * (z * .88 + y * .18);
+  ctx.strokeStyle = "#a5f268";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - radius);
+  ctx.lineTo(px, py);
+  ctx.stroke();
+  ctx.fillStyle = "#a5f268";
+  ctx.beginPath();
+  ctx.arc(px, py, 7, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "#d8e9d5";
+  ctx.font = '12px "DM Mono"';
+  ctx.fillText("|0⟩", cx + 8, cy - radius - 10);
+  ctx.fillText("|1⟩", cx + 8, cy + radius + 20);
+  driveOutput.value = omega.toFixed(2);
+  detuningOutput.value = delta.toFixed(2);
+  timeOutput.value = time.toFixed(2);
+  document.querySelector("#excited-probability").textContent = `${((1 - z) / 2 * 100).toFixed(1)}%`;
+  document.querySelector("#bloch-coordinates").textContent = `${x.toFixed(2)}, ${y.toFixed(2)}, ${z.toFixed(2)}`;
+  document.querySelector("#state-label").textContent = ((1 - z) / 2 > .5) ? "|1⟩ leaning" : "|0⟩ leaning";
+}
+
+function animateSimulation() {
+  const start = performance.now();
+  const initial = Number(timeControl.value);
+  function frame(now) {
+    const next = initial + ((now - start) / 1000);
+    timeControl.value = (next % 12).toFixed(2);
+    drawBloch();
+    animationFrame = requestAnimationFrame(frame);
+  }
+  cancelAnimationFrame(animationFrame);
+  animationFrame = requestAnimationFrame(frame);
+}
+
+[driveControl, detuningControl, timeControl].forEach((control) => control.addEventListener("input", drawBloch));
+document.querySelector("#run-simulation").addEventListener("click", animateSimulation);
+document.querySelector("#reset-simulation").addEventListener("click", () => {
+  cancelAnimationFrame(animationFrame);
+  driveControl.value = 1;
+  detuningControl.value = 0;
+  timeControl.value = 0;
+  drawBloch();
+});
+drawBloch();

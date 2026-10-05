@@ -109,9 +109,44 @@
         </div>
       </section>
 
+      <section class="quantum-lab" id="quantum-lab">
+        <div class="panel lab-heading">
+          <div>
+            <span class="section-label">03 / QUANTUM LAB</span>
+            <h2>See a qubit evolve</h2>
+            <p>Explore driven two-level dynamics on the Bloch sphere. Change the drive, detuning, and time, then watch the state move.</p>
+          </div>
+          <span class="live-pill">● LIVE SIMULATION</span>
+        </div>
+        <div class="lab-grid">
+          <div class="panel sphere-card">
+            <div class="canvas-wrap">
+              <canvas id="bloch-canvas" width="520" height="420" aria-label="Animated Bloch sphere"></canvas>
+            </div>
+            <div class="state-readout">
+              <span><b id="state-label">|0⟩</b><small>current state</small></span>
+              <span><b id="excited-probability">0%</b><small>P(|1⟩)</small></span>
+              <span><b id="bloch-coordinates">0.00, 0.00, 1.00</b><small>Bloch vector</small></span>
+            </div>
+          </div>
+          <div class="panel controls-card">
+            <div class="control-title"><span class="section-label">EXPERIMENT CONTROLS</span><button class="text-button" id="reset-simulation">Reset ↺</button></div>
+            <label>Drive strength <output id="drive-output">1.00</output><input id="drive-control" type="range" min="0" max="2" step=".05" value="1" /></label>
+            <label>Detuning <output id="detuning-output">0.00</output><input id="detuning-control" type="range" min="-2" max="2" step=".05" value="0" /></label>
+            <label>Evolution time <output id="time-output">0.00</output><input id="time-control" type="range" min="0" max="12" step=".01" value="0" /></label>
+            <button class="send-button run-button" id="run-simulation">Run animation <span>▶</span></button>
+            <div class="lab-equation">
+              <span class="section-label">MODEL</span>
+              <strong>H = ½(Ωσₓ + Δσ𝓏)</strong>
+              <p>For a qubit starting in |0⟩, the effective rotation frequency is ω = √(Ω² + Δ²). Detuning makes the rotation axis tilt away from the equator.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="panel quiz-panel" id="quiz">
         <div class="quiz-intro">
-          <span class="section-label">03 / DAILY CHECK-IN</span>
+          <span class="section-label">04 / DAILY CHECK-IN</span>
           <h2>One question.<br /><span>Make it count.</span></h2>
           <p>Test your understanding in under two minutes. No pressure — mistakes are data.</p>
           <button class="send-button" id="start-quiz">Start today's quiz <span>↗</span></button>
